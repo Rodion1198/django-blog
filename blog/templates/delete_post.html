@@ -3,17 +3,23 @@
 {% block content %}
 
 
-<h1>Update Blog Post</h1>
-<br/>
-<h3>Delete: {{ post.title }}</h3>
 
-<div class="form-group">
-    <form action="" method="post">
-        {% csrf_token %}
-        <strong>Are you sure?!</strong><br/><br/>
-        <button class="btn btn-secondary">Delete Post!</button>
+{% if user.is_authenticated %}
 
-</form>
-</div>
+    <h1>Update Blog Post</h1>
+    <br/>
+    <h3>Delete: {{ post.title }}</h3>
 
+    <div class="form-group">
+        <form action="" method="post">
+            {% csrf_token %}
+            <strong>Are you sure?!</strong><br/><br/>
+            <button class="btn btn-secondary">Delete Post!</button>
+
+    </form>
+    </div>
+{% else %}
+    You are not allowed here!
+
+{% endif %}
 {% endblock %}

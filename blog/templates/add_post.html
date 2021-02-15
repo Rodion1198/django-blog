@@ -3,16 +3,22 @@
 
 {% block content %}
 
-<h1>Add Blog Post</h1>
 
-<div class="form-group">
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn btn-secondary">Post</button>
+{% if user.is_authenticated %}
 
-</form>
-</div>
+    <h1>Add Blog Post</h1>
 
+    <div class="form-group">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-secondary">Post</button>
+
+    </form>
+    </div>
+{% else %}
+    You are not allowed here!
+
+{% endif %}
 
 {% endblock %}
