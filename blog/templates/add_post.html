@@ -16,9 +16,14 @@
 
     </form>
     </div>
+
+    <script>
+        var name = "{{ user.id }}";
+        document.getElementById("user").value = name;
+    </script>
+
 {% else %}
     You are not allowed here!
-
 {% endif %}
 
 {% endblock %}

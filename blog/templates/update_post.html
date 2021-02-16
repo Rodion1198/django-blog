@@ -4,19 +4,23 @@
 
 
 {% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
 
-    <h1>Update Blog Post</h1>
-    <br/>
-    <div class="form-group">
-        <form action="" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button class="btn btn-secondary">Update</button>
+        <h1>Update Blog Post</h1>
+        <br/>
+        <div class="form-group">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-secondary">Update</button>
 
-    </form>
-    </div>
+        </form>
+        </div>
+    {% else %}
+        You are not allowed here!
+    {% endif %}
 {% else %}
     You are not allowed here!
-
 {% endif %}
+
 {% endblock %}

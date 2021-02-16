@@ -5,21 +5,25 @@
 
 
 {% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
 
-    <h1>Update Blog Post</h1>
-    <br/>
-    <h3>Delete: {{ post.title }}</h3>
+        <h1>Update Blog Post</h1>
+        <br/>
+        <h3>Delete: {{ post.title }}</h3>
 
-    <div class="form-group">
-        <form action="" method="post">
-            {% csrf_token %}
-            <strong>Are you sure?!</strong><br/><br/>
-            <button class="btn btn-secondary">Delete Post!</button>
+        <div class="form-group">
+            <form action="" method="post">
+                {% csrf_token %}
+                <strong>Are you sure?!</strong><br/><br/>
+                <button class="btn btn-secondary">Delete Post!</button>
 
-    </form>
-    </div>
+        </form>
+        </div>
+    {% else %}
+        You are not allowed here!
+    {% endif %}
+
 {% else %}
     You are not allowed here!
-
 {% endif %}
 {% endblock %}
