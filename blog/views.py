@@ -1,22 +1,18 @@
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 
 from .forms import EditForm, PostForm
 from .models import Category, Post
 
-from django.http import HttpResponseRedirect
-
 
 def like_view(request, pk):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
-    liked = False
     if post.likes.filter(id=request.user.id).exists():
         post.likes.remove(request.user)
-        liked = False
     else:
         post.likes.add(request.user)
-        liked = True
 
     return HttpResponseRedirect(reverse('article-detail', args=[pk]))
 
