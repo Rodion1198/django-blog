@@ -1,9 +1,35 @@
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from .forms import EditForm, PostForm
 from .models import Category, Post
+
+from django.http import HttpResponseRedirect
+
+
+def like_view(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
+
+    return HttpResponseRedirect(reverse('article-detail', args=[pk]))
+
+
+def category_list_view(request):
+    category_list_menu = Category.objects.all()
+    return render(request, 'category_list.html', {'category_list_menu': category_list_menu})
+
+
+def category_view(request, category):
+    category_posts = Post.objects.filter(category=category.replace('-', ' '))
+    return render(request, 'categories.html', {'category': category.title().replace('-', ' '),
+                                               'category_posts': category_posts})
 
 
 class HomeView(generic.ListView):
@@ -18,17 +44,6 @@ class HomeView(generic.ListView):
         return context
 
 
-def category_list_view(request):
-    category_list_menu = Category.objects.all()
-    return render(request, 'category_list.html', {'category_list_menu': category_list_menu})
-
-
-def category_view(request, category):
-    category_posts = Post.objects.filter(category=category.replace('-', ' '))
-    return render(request, 'categories.html', {'category': category.title().replace('-', ' '),
-                                               'category_posts': category_posts})
-
-
 class ArticleDetailView(generic.DetailView):
     model = Post
     template_name = 'article_detail.html'
@@ -36,7 +51,17 @@ class ArticleDetailView(generic.DetailView):
     def get_context_data(self, *args, **kwargs):
         category_menu = Category.objects.all()
         context = super(ArticleDetailView, self).get_context_data(**kwargs)
+
+        stuff = get_object_or_404(Post, id=self.kwargs['pk'])
+        count_likes = stuff.count_likes()
+
+        liked = False
+        if stuff.likes.filter(id=self.request.user.id).exists():
+            liked = True
+
         context['category_menu'] = category_menu
+        context['count_likes'] = count_likes
+        context['liked'] = liked
         return context
 
 
