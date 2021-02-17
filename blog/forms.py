@@ -2,13 +2,14 @@ from django import forms
 
 from .models import Category, Post
 
+
 category = Category.objects.all().values_list('name', 'name')
 
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('title', 'title_tag', 'category', 'author', 'body', 'snippet')
+        fields = ('title', 'title_tag', 'category', 'author', 'body', 'snippet', 'header_image')
 
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),

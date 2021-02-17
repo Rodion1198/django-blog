@@ -1,8 +1,14 @@
+# import sys
+
 from ckeditor.fields import RichTextField
 
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
+# from django.core.files.uploading import InMemoryUploadedFile
+
+# from PIL import Image
+# from io import BytesIO
 
 
 User = get_user_model()
@@ -21,6 +27,7 @@ class Category(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=250)
+    header_image = models.ImageField(null=True, blank=True, upload_to='images/')   # noqa: DJ01
     title_tag = models.CharField(max_length=250)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.CharField(max_length=255)
@@ -37,3 +44,16 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('article-detail', args=[self.id])
+
+    # def save(self, *args, **kwargs):
+    #     image = self.header_image
+    #     img = Image.open(image)
+    #     new_img = img.convert('RGB')
+    #     resized_new_img = new_img.resize((400, 400), Image.ANTIALIAS)
+    #     filestream = BytesIO()
+    #     resized_new_img.save(filestream, "JPEG", quality=90)
+    #     name = '{}.{}'.format(*self.header_image.name.split('.'))
+    #     self.header_image = InMemoryUploadedFile(
+    #         filestream, 'Imagefield', name, 'jpeg/header_image', sys.getsizeof(filestream), None
+    #     )
+    #     super().save(*args, **kwargs)
