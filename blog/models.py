@@ -1,6 +1,9 @@
+from ckeditor.fields import RichTextField
+
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
+
 
 User = get_user_model()
 
@@ -20,8 +23,9 @@ class Post(models.Model):
     title = models.CharField(max_length=250)
     title_tag = models.CharField(max_length=250)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.CharField(max_length=255, default='coding')
-    body = models.TextField()
+    category = models.CharField(max_length=255)
+    snippet = models.CharField(max_length=255)
+    body = RichTextField(blank=True, null=True)
     post_date = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name='blog_posts')
 
