@@ -24,8 +24,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '7o=(r9*sg%lnk=vh$)u8du98qe!cmj
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
-
-ALLOWED_HOSTS = []
+# DEBUG = False
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'ckeditor',
+    'silk',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'silk.middleware.SilkyMiddleware',
+
 ]
 
 ROOT_URLCONF = 'simple_blog.urls'
@@ -118,16 +122,22 @@ USE_L10N = True
 USE_TZ = True
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+
 STATIC_URL = '/static/'
-
-MEDIA_URL = '/media/'
-
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
+
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media")
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+
+# silk
+SILKY_PYTHON_PROFILER = True
