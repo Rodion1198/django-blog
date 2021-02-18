@@ -28,7 +28,7 @@ class EditProfileForm(UserChangeForm):
     first_name = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))
     username = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    last_login = forms.CharField(max_length=255, widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
+    last_login = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))
     is_superuser = forms.CharField(max_length=255, widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
     is_staff = forms.CharField(max_length=255, widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
     is_active = forms.CharField(max_length=255, widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
