@@ -28,12 +28,12 @@ class Category(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     bio = models.TextField()
-    profile_image = models.ImageField(null=True, blank=True, upload_to='images/user_profile')
-    website_url = models.CharField(max_length=255, null=True, blank=True)
-    facebook_url = models.CharField(max_length=255, null=True, blank=True)
-    twitter_url = models.CharField(max_length=255, null=True, blank=True)
-    instagram_url = models.CharField(max_length=255, null=True, blank=True)
-    pinterest_url = models.CharField(max_length=255, null=True, blank=True)
+    profile_image = models.ImageField(null=True, blank=True, upload_to='images/user_profile')   # noqa: DJ01
+    website_url = models.CharField(max_length=255, null=True, blank=True)   # noqa: DJ01
+    facebook_url = models.CharField(max_length=255, null=True, blank=True)  # noqa: DJ01
+    twitter_url = models.CharField(max_length=255, null=True, blank=True)   # noqa: DJ01
+    instagram_url = models.CharField(max_length=255, null=True, blank=True)     # noqa: DJ01
+    pinterest_url = models.CharField(max_length=255, null=True, blank=True)     # noqa: DJ01
 
     def __str__(self):
         return str(self.user)
