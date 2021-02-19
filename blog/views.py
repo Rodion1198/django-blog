@@ -3,8 +3,8 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 
-from .forms import EditForm, PostForm
-from .models import Category, Post
+from .forms import CommentForm, EditForm, PostForm
+from .models import Category, Comment, Post
 
 
 def like_view(request, pk):
@@ -32,6 +32,7 @@ class HomeView(generic.ListView):
     model = Post
     template_name = 'home.html'
     ordering = ['-post_date']
+    paginate_by = 13
 
     def get_context_data(self, *args, **kwargs):
         category_menu = Category.objects.all()
@@ -65,6 +66,17 @@ class AddPostView(generic.CreateView):
     model = Post
     form_class = PostForm
     template_name = 'add_post.html'
+
+
+class AddCommentView(generic.CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'add_comment.html'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.instance.post_id = self.kwargs['pk']
+        return super().form_valid(form)
 
 
 class AddCategoryView(generic.CreateView):

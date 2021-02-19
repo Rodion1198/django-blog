@@ -63,15 +63,27 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('article-detail', args=[self.id])
 
-    # def save(self, *args, **kwargs):
-    #     image = self.header_image
-    #     img = Image.open(image)
-    #     new_img = img.convert('RGB')
-    #     resized_new_img = new_img.resize((400, 400), Image.ANTIALIAS)
-    #     filestream = BytesIO()
-    #     resized_new_img.save(filestream, "JPEG", quality=90)
-    #     name = '{}.{}'.format(*self.header_image.name.split('.'))
-    #     self.header_image = InMemoryUploadedFile(
-    #         filestream, 'Imagefield', name, 'jpeg/header_image', sys.getsizeof(filestream), None
-    #     )
-    #     super().save(*args, **kwargs)
+    """
+    def save(self, *args, **kwargs):
+        image = self.header_image
+        img = Image.open(image)
+        new_img = img.convert('RGB')
+        resized_new_img = new_img.resize((400, 400), Image.ANTIALIAS)
+        filestream = BytesIO()
+        resized_new_img.save(filestream, "JPEG", quality=90)
+        name = '{}.{}'.format(*self.header_image.name.split('.'))
+        self.header_image = InMemoryUploadedFile(
+            filestream, 'Imagefield', name, 'jpeg/header_image', sys.getsizeof(filestream), None
+        )
+        super().save(*args, **kwargs)
+    """
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    body = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.post.title}, {self.name}'
