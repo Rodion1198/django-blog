@@ -1,12 +1,12 @@
+from blog.models import Profile
+
 from django.contrib.auth.views import PasswordChangeView
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
-from django.shortcuts import get_object_or_404
 
-from .forms import EditProfileForm, PasswordChangingForm, SingUpForm, ProfilePageForm
-
-from blog.models import Profile
+from .forms import EditProfileForm, PasswordChangingForm, ProfilePageForm, SingUpForm
 
 
 class CreateProfilePageView(generic.CreateView):

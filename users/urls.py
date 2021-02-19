@@ -1,8 +1,8 @@
 from django.urls import path
 
 from . import views
-from .views import PasswordsChangeView, UserEditView, UserRegisterView, ShowProfilePageView, EditProfilePageView, \
-    CreateProfilePageView
+from .views import CreateProfilePageView, EditProfilePageView, PasswordsChangeView, ShowProfilePageView, UserEditView,\
+    UserRegisterView
 
 
 urlpatterns = [
