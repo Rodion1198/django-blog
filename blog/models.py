@@ -38,6 +38,10 @@ class Profile(models.Model):
     def __str__(self):
         return str(self.user)
 
+    @staticmethod
+    def get_absolute_url():
+        return reverse('home')
+
 
 class Post(models.Model):
     title = models.CharField(max_length=250)
