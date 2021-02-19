@@ -1,9 +1,26 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordChangeForm, UserChangeForm, UserCreationForm
+from blog.models import Profile
 
 
 User = get_user_model()
+
+
+class ProfilePageForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('bio', 'profile_image', 'website_url', 'facebook_url', 'twitter_url', 'instagram_url', 'pinterest_url')
+        widgets = {
+            'bio': forms.Textarea(attrs={'class': 'form-control'}),
+            # 'profile_image': forms.TextInput(attrs={'class': 'form-control'}),
+            'website_url': forms.TextInput(attrs={'class': 'form-control'}),
+            'facebook_url': forms.TextInput(attrs={'class': 'form-control'}),
+            'twitter_url': forms.TextInput(attrs={'class': 'form-control'}),
+            'instagram_url': forms.TextInput(attrs={'class': 'form-control'}),
+            'pinterest_url': forms.TextInput(attrs={'class': 'form-control'}),
+
+        }
 
 
 class SingUpForm(UserCreationForm):
