@@ -25,7 +25,7 @@
     <ul class="navbar-nav mr-auto">
 
 
-{#        Category Menu Code    #}
+{#      Category Menu Code    #}
         {% if category_menu %}
         <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -56,30 +56,6 @@
              <a class="nav-link" href="{% url 'add_category' %}">Add Category</a>
             </li>
 
-                <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Profile
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Settings</a>
-
-                {% if user.profile.id %}
-                    <a class="dropdown-item" href="{% url 'edit_profile_page' user.profile.id %}">Edit Profile Page</a>
-                    <a class="dropdown-item" href="{% url 'show_profile_page' user.profile.id %}">Show Profile page</a>
-
-                {% else %}
-                    <a class="dropdown-item" href="{% url 'create_profile_page' %}">Create Profile Page</a>
-                {% endif %}
-
-            </div>
-            </li>
-
-
-            <li class="nav-item">
-             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-            </li>
-
-
         {% else %}
             <li class="nav-item">
              <a class="nav-link" href="{% url 'registration' %}">Registration</a>
@@ -90,10 +66,37 @@
             </li>
 
         {% endif %}
-
-
-
     </ul>
+
+{% if user.is_authenticated %}
+      <ul class="navbar-nav mr-10">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 {{ user.first_name }}
+                 {{ user.last_name }}
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Settings</a>
+
+                {% if user.profile.id %}
+                    <a class="dropdown-item" href="{% url 'edit_profile_page' user.profile.id %}">Edit Profile Page</a>
+                    <a class="dropdown-item" href="{% url 'show_profile_page' user.profile.id %}">Show Profile page</a>
+
+                {% else %}
+                    <a class="dropdown-item" href="{% url 'create_profile_page' %}">Create Profile Page</a>
+                {% endif %}
+
+
+                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+
+
+            </div>
+        </li>
+
+      <ul/>
+
+{% endif %}
+
 
   </div>
 </nav>
@@ -104,6 +107,26 @@
 
     {% endblock %}
     </div>
+
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+      {% if is_paginated %}
+         {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Previous</a></li>
+         {% endif %}
+          <span class="page-current">
+              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+          </span>
+         {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}">Next</a></li>
+         {% endif %}
+    {% endif %}
+  </ul>
+</nav>
+
+
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

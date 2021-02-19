@@ -8,8 +8,21 @@
 <div class="form-group">
     <form action="" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn btn-secondary">Login</button>
+
+<div class="form-group">
+    <input type="text" class="form-control" name="username" placeholder="Username">
+</div>
+
+
+<div class="form-group">
+    <input type="password" class="form-control" name="password" placeholder="Password">
+</div>
+
+<br/>
+<button class="btn btn-secondary">Login</button>
+
+<br/><br/>
+Not Registered? Sign Up <a href="{% url 'registration' %}">Here...</a>
 
 </form>
 </div>

@@ -29,11 +29,7 @@
     <br/><br/>
     {{ post.body|safe }}
 
-<br/><br/>
-<a href="{% url 'home' %}" class="btn btn-secondary">
-    Back</a>
 
-    <br/><br/>
     <br/>
     <br/>
     <form action="{% url 'like_post' post.pk %}"
@@ -94,7 +90,6 @@
     |<a href="{{ post.author.profile.instagram_url }}">
       Instagram<a/>
   {% endif %}
-
 </p>
 
 
@@ -104,6 +99,32 @@
     </div>
   </div>
 </div>
+
+
+     <br/><br/>
+    <hr/>
+    <h2>Comments</h2>
+    <br/>
+    {% if not post.comments.all %}
+        No Comment yet...<a href="{% url 'add_comment' post.pk %}">Add One</a>
+    {% else %}
+    <br/>
+
+        {% for comment in post.comments.all %}
+            <strong>
+                    {{ comment.name }} -
+                    {{ comment.date_added }}
+            </strong>
+            <br/>
+            {{ comment.body }}
+            <br/><br/>
+
+        {% endfor %}
+        <a href="{% url 'add_comment' post.pk %}">Add Comment</a>
+
+    {% endif %}
+
+    <br/><br/>
 
 
 {% endblock %}
