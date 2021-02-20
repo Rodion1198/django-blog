@@ -1,18 +1,19 @@
 from blog.models import Profile
 
 from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
 from .forms import EditProfileForm, PasswordChangingForm, ProfilePageForm, SingUpForm
 
 
-class CreateProfilePageView(generic.CreateView):
+class CreateProfilePageView(SuccessMessageMixin, generic.CreateView):
     model = Profile
     form_class = ProfilePageForm
     template_name = 'registration/create_user_profile_page.html'
+    success_message = 'Profile created'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -37,13 +38,10 @@ class ShowProfilePageView(generic.DetailView):
         return context
 
 
-class PasswordsChangeView(PasswordChangeView):
+class PasswordsChangeView(SuccessMessageMixin, PasswordChangeView):
     form_class = PasswordChangingForm
-    success_url = reverse_lazy('password_success')
-
-
-def password_success(request):
-    return render(request, 'registration/password_success.html', {})
+    success_url = reverse_lazy('home')
+    success_message = 'Password was change'
 
 
 class UserRegisterView(generic.CreateView):
