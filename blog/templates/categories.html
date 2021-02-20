@@ -8,45 +8,43 @@
 
     <ul>
     {% for post in category_posts %}
-        <li><a href="{% url 'article-detail' post.pk %}"
-        > {{ post.title }}</a>
 
-            - {{ post.author.first_name }}
-            {{ post.author.last_name }} -
-            {{ post.post_date }} <small>
+        By: <a href="{% url 'show_profile_page' post.author.profile.id %}">
+                {{ post.author.first_name }}
+                {{ post.author.last_name }}<a/>
 
-            {% if user.is_authenticated %}
+    {% if user.is_authenticated %}
+        {% if user.id == post.author.id %}
                 - <a href="{% url 'update_post' post.pk %}">(Edit)</a>
                 <a href="{% url 'delete_post' post.pk %}">(Delete)</a>
             {% endif %}
+    {% endif %}
 
-         </small> <br/>
-        {{ post.body|slice:":200"|safe }}</li>
+
+    <div class="card text-center">
+        <div class="card-header">
+        <a href="{% url "category" post.category|slugify %}">Category: {{ post.category }}</a>
+    </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ post.title }}</h5>
+        <p class="card-text">{{ post.snippet|safe }}</p>
+        <a href="{% url 'article-detail' post.pk %}" class="btn btn-primary">Show Post</a>
+      </div>
+      <div class="card-footer text-muted">
+        {{ post.post_date }}
+
+      </div>
+    </div>
+    <br/><br/><br/><br/><br/>
+
+
+
     {% endfor %}
     </ul>
 
 {% else %}
-    <h2>Sorry this page does not exist...</h2>
+    <h2>Sorry this page does not exist...!</h2>
 {% endif %}
-
-    {% block pagination %}
-          {% if is_paginated %}
-            <div class="pagination">
-              <span class="page-links">
-                {% if page_obj.has_previous %}
-                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
-                {% endif %}
-                <span class="page-current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
-                {% if page_obj.has_next %}
-                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
-                {% endif %}
-              </span>
-            </div>
-          {% endif %}
-        {% endblock %}
-        </div>
 
 
 {% endblock %}

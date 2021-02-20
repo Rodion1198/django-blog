@@ -1,27 +1,40 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <h1>Post</h1>
 
 <ul>
 {% for post in object_list %}
-    <li><a href="{% url 'article-detail' post.pk %}"
-    > {{ post.title }}</a>
 
-        - <a href="{% url "category" post.category|slugify %}">{{ post.category }}</a>
-        - {{ post.author.first_name }}
-        {{ post.author.last_name }} -
-        {{ post.post_date }} <small>
+        By: <a href="{% url 'show_profile_page' post.author.profile.id %}">
+                {{ post.author.first_name }}
+                {{ post.author.last_name }}<a/>
+    {% if user.is_authenticated %}
 
-        {% if user.is_authenticated %}
-            {% if user.id == post.author.id %}
-
+        {% if user.id == post.author.id %}
                 - <a href="{% url 'update_post' post.pk %}">(Edit)</a>
                 <a href="{% url 'delete_post' post.pk %}">(Delete)</a>
             {% endif %}
         {% endif %}
 
-     </small> <br/>
-    {{ post.snippet }}</li>
+
+    <div class="card text-center">
+        <div class="card-header">
+        <a href="{% url "category" post.category|slugify %}">Category: {{ post.category }}</a>
+    </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ post.title }}</h5>
+        <p class="card-text">{{ post.snippet }}</p>
+        <a href="{% url 'article-detail' post.pk %}" class="btn btn-primary">Show Post</a>
+      </div>
+      <div class="card-footer text-muted">
+        {{ post.post_date }}
+
+      </div>
+    </div>
+    <br/><br/><br/><br/><br/>
+
+
 
 {% endfor %}
 </ul>
