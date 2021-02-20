@@ -5,6 +5,7 @@ from ckeditor.fields import RichTextField
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 # from django.core.files.uploading import InMemoryUploadedFile
 
 # from PIL import Image
@@ -83,7 +84,7 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     body = models.TextField()
-    date_added = models.DateTimeField(auto_now_add=True)
+    date_added = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f'{self.post.title}, {self.name}'

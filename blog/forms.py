@@ -1,3 +1,5 @@
+from captcha.fields import CaptchaField
+
 from django import forms
 
 from .models import Category, Comment, Post
@@ -43,3 +45,9 @@ class CommentForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'body': forms.Textarea(attrs={'class': 'form-control'}),
         }
+
+
+class FeedbackForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}), required=True)
+    message = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}), required=True)
+    captcha = CaptchaField()
