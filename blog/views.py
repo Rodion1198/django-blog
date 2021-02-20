@@ -1,9 +1,11 @@
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 
-from .forms import CommentForm, EditForm, PostForm
+from .forms import CommentForm, EditForm, FeedbackForm, PostForm
 from .models import Category, Comment, Post
 
 
@@ -23,16 +25,31 @@ def category_list_view(request):
 
 
 def category_view(request, category):
-    category_posts = Post.objects.filter(category=category.replace('-', ' '))
-    return render(request, 'categories.html', {'category': category.title().replace('-', ' '),
+    category_posts = Post.objects.filter(category=category)
+    return render(request, 'categories.html', {'category': category.title(),
                                                'category_posts': category_posts})
+
+
+def feedback_form(request):
+    if request.method == 'GET':
+        form = FeedbackForm()
+    else:
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            subject = 'New Feedback!!'
+            from_email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            send_mail(subject, message, from_email, ['admin@example.com'])
+
+            return redirect('home')
+    return render(request, 'contact.html', context={'form': form})
 
 
 class HomeView(generic.ListView):
     model = Post
     template_name = 'home.html'
     ordering = ['-post_date']
-    paginate_by = 13
+    paginate_by = 10
 
     def get_context_data(self, *args, **kwargs):
         category_menu = Category.objects.all()
@@ -62,10 +79,11 @@ class ArticleDetailView(generic.DetailView):
         return context
 
 
-class AddPostView(generic.CreateView):
+class AddPostView(SuccessMessageMixin, generic.CreateView):
     model = Post
     form_class = PostForm
     template_name = 'add_post.html'
+    success_message = 'Post created'
 
 
 class AddCommentView(generic.CreateView):
@@ -79,16 +97,18 @@ class AddCommentView(generic.CreateView):
         return super().form_valid(form)
 
 
-class AddCategoryView(generic.CreateView):
+class AddCategoryView(SuccessMessageMixin, generic.CreateView):
     model = Category
     template_name = 'add_category.html'
     fields = '__all__'
+    success_message = 'Category added'
 
 
-class UpdatePostView(generic.UpdateView):
+class UpdatePostView(SuccessMessageMixin, generic.UpdateView):
     model = Post
     form_class = EditForm
     template_name = 'update_post.html'
+    success_message = 'Post updated'
 
 
 class DeletePostView(generic.DeleteView):
