@@ -23,6 +23,10 @@
         <a href="{% url "category" post.category|slugify %}">Category: {{ post.category }}</a>
     </div>
       <div class="card-body">
+
+        {% if post.header_image %}
+            <img class="rounded mx-auto d-block" src="{{ post.header_image.url }}" alt="">
+        {% endif %}
         <h5 class="card-title">{{ post.title }}</h5>
         <p class="card-text">{{ post.snippet }}</p>
         <a href="{% url 'article-detail' post.pk %}" class="btn btn-primary">Show Post</a>
@@ -32,8 +36,9 @@
 
       </div>
     </div>
-    <br/><br/><br/><br/><br/>
 
+
+    <br/><br/><br/><br/><br/>
 
 
 {% endfor %}
