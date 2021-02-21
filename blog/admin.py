@@ -1,6 +1,12 @@
 from django.contrib import admin
 
-from .models import Category, Comment, Post, Profile
+from .models import Category, Comment, Post, Profile, RSSPost
+
+
+@admin.register(RSSPost)
+class RSSPostAdmin(admin.ModelAdmin):
+    fields = ['title', 'link']
+    list_display = ('title', 'link')
 
 
 admin.site.register(Post)

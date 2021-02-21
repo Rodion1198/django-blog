@@ -4,9 +4,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
+from django.views.decorators.cache import cache_page
 
 from .forms import CommentForm, EditForm, FeedbackForm, PostForm
-from .models import Category, Comment, Post
+from .models import Category, Comment, Post, RSSPost
 
 
 def like_view(request, pk):
@@ -24,6 +25,7 @@ def category_list_view(request):
     return render(request, 'category_list.html', {'category_list_menu': category_list_menu})
 
 
+@cache_page(10)
 def category_view(request, category):
     category_posts = Post.objects.filter(category=category).order_by('-post_date')
     return render(request, 'categories.html', {'category': category.title(),
@@ -115,3 +117,9 @@ class DeletePostView(generic.DeleteView):
     model = Post
     template_name = 'delete_post.html'
     success_url = reverse_lazy('home')
+
+
+class RSSPostList(generic.ListView):
+    model = RSSPost
+    template_name = 'rss_post_list_page.html'
+    paginate_by = 10

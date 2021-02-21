@@ -1,7 +1,9 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
+
 
 from .views import AddCategoryView, AddCommentView, AddPostView, ArticleDetailView, DeletePostView, HomeView,\
-    UpdatePostView, category_list_view, category_view, feedback_form, like_view
+    UpdatePostView, category_list_view, category_view, feedback_form, like_view, RSSPostList
 
 
 urlpatterns = [
@@ -16,5 +18,6 @@ urlpatterns = [
     path('like/<int:pk>', like_view, name='like_post'),
     path('article/<int:pk>/comment/', AddCommentView.as_view(), name='add_comment'),
     path('feedback/', feedback_form, name='feedback'),
+    path('rss-post/', RSSPostList.as_view(), name='rss_post_list'),
 
 ]
