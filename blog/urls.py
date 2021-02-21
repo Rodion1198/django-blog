@@ -1,9 +1,7 @@
 from django.urls import path
-from django.views.decorators.cache import cache_page
-
 
 from .views import AddCategoryView, AddCommentView, AddPostView, ArticleDetailView, DeletePostView, HomeView,\
-    UpdatePostView, category_list_view, category_view, feedback_form, like_view, RSSPostList
+    RSSPostList, UpdatePostView, category_list_view, category_view, feedback_form, like_view
 
 
 urlpatterns = [

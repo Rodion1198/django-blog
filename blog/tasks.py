@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
+
 from celery import shared_task
+
 import requests
 
 from .models import RSSPost
@@ -29,4 +31,3 @@ def add_post_rss():
     except Exception as e:
         print('The scraping job failed. See exception:')  # noqa:T001
         print(e)  # noqa:T001
-
