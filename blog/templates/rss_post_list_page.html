@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Here we have interesting posts for you!</h1>
+<h1>We hope you enjoy it!</h1>
+<h3>Posts:</h3>
+<ul>
+{% for post in page_obj %}
+    <li><h4>Title: {{ post.title }} </h4></li>
+    <h5>Link: <a href='{{post.link}}'>{{ post.link }}</a></h5>
+   	<hr>
+{% empty %}
+    <li>No posts yet.</li>
+{% endfor %}
+</ul>
+{% endblock %}
