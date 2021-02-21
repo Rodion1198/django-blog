@@ -6,8 +6,8 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-# from django.core.files.uploading import InMemoryUploadedFile
-
+# from django.core.files.uploadedfile import InMemoryUploadedFile
+#
 # from PIL import Image
 # from io import BytesIO
 
@@ -64,12 +64,12 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('article-detail', args=[self.id])
 
-    """
-    def save(self, *args, **kwargs):
+
+"""    def save(self, *args, **kwargs):
         image = self.header_image
         img = Image.open(image)
         new_img = img.convert('RGB')
-        resized_new_img = new_img.resize((400, 400), Image.ANTIALIAS)
+        resized_new_img = new_img.resize((800, 800), Image.ANTIALIAS)
         filestream = BytesIO()
         resized_new_img.save(filestream, "JPEG", quality=90)
         name = '{}.{}'.format(*self.header_image.name.split('.'))
@@ -77,7 +77,7 @@ class Post(models.Model):
             filestream, 'Imagefield', name, 'jpeg/header_image', sys.getsizeof(filestream), None
         )
         super().save(*args, **kwargs)
-    """
+"""
 
 
 class Comment(models.Model):

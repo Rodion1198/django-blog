@@ -25,7 +25,7 @@ def category_list_view(request):
 
 
 def category_view(request, category):
-    category_posts = Post.objects.filter(category=category)
+    category_posts = Post.objects.filter(category=category).order_by('-post_date')
     return render(request, 'categories.html', {'category': category.title(),
                                                'category_posts': category_posts})
 
