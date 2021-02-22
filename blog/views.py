@@ -49,7 +49,7 @@ def feedback_form(request):
     return render(request, 'contact.html', context={'form': form})
 
 
-@method_decorator(cache_page(20), name='dispatch')
+# @method_decorator(cache_page(20), name='dispatch')
 class HomeView(generic.ListView):
     model = Post
     template_name = 'home.html'
