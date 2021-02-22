@@ -3,6 +3,7 @@ from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import generic
 from django.views.decorators.cache import cache_page
 
@@ -20,6 +21,7 @@ def like_view(request, pk):
     return HttpResponseRedirect(reverse('article-detail', args=[pk]))
 
 
+@cache_page(10)
 def category_list_view(request):
     category_list_menu = Category.objects.all()
     return render(request, 'category_list.html', {'category_list_menu': category_list_menu})
@@ -47,6 +49,7 @@ def feedback_form(request):
     return render(request, 'contact.html', context={'form': form})
 
 
+@method_decorator(cache_page(20), name='dispatch')
 class HomeView(generic.ListView):
     model = Post
     template_name = 'home.html'
@@ -60,6 +63,7 @@ class HomeView(generic.ListView):
         return context
 
 
+@method_decorator(cache_page(10), name='dispatch')
 class ArticleDetailView(generic.DetailView):
     model = Post
     template_name = 'article_detail.html'

@@ -4,7 +4,9 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import generic
+from django.views.decorators.cache import cache_page
 
 from .forms import EditProfileForm, PasswordChangingForm, ProfilePageForm, SingUpForm
 
@@ -27,6 +29,7 @@ class EditProfilePageView(generic.UpdateView):
     success_url = reverse_lazy('home')
 
 
+@method_decorator(cache_page(10), name='dispatch')
 class ShowProfilePageView(generic.DetailView):
     model = Profile
     template_name = 'registration/user_profile.html'
