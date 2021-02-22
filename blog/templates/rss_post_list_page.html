@@ -5,7 +5,7 @@
 <h1>We hope you enjoy it!</h1>
 <h3>Posts:</h3>
 <ul>
-{% for post in page_obj %}
+{% for post in object_list %}
     <li><h4>Title: {{ post.title }} </h4></li>
     <h5>Link: <a href='{{post.link}}'>{{ post.link }}</a></h5>
    	<hr>
