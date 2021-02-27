@@ -89,6 +89,9 @@ class Comment(models.Model):
     def __str__(self):
         return f'{self.post.title}, {self.name}'
 
+    def get_absolute_url(self):
+        return reverse('article-detail', args=[self.post_id])
+
 
 class RSSPost(models.Model):
     title = models.CharField(max_length=255)

@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
-from django.utils.decorators import method_decorator
+from django.utils.decorators import method_decorator   # noqa: F401
 from django.views import generic
 from django.views.decorators.cache import cache_page
 
@@ -63,7 +63,7 @@ class HomeView(generic.ListView):
         return context
 
 
-@method_decorator(cache_page(10), name='dispatch')
+# @method_decorator(cache_page(10), name='dispatch')
 class ArticleDetailView(generic.DetailView):
     model = Post
     template_name = 'article_detail.html'
@@ -96,7 +96,6 @@ class AddCommentView(generic.CreateView):
     model = Comment
     form_class = CommentForm
     template_name = 'add_comment.html'
-    success_url = reverse_lazy('home')
 
     def form_valid(self, form):
         form.instance.post_id = self.kwargs['pk']
