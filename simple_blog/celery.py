@@ -14,6 +14,6 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'scraping_rss_posts': {
         'task': 'blog.tasks.add_post_rss',
-        'schedule': crontab(hour='1-23/2'),
+        'schedule': crontab('1-23/2'),
     }
 }
