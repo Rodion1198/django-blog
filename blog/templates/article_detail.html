@@ -7,10 +7,17 @@
 
     <h1>{{ post.title }}</h1>
         <small>By:
+        {% if post.author.profile %}
             <a href="{% url 'show_profile_page' post.author.profile.id %}">
                 {{ post.author.first_name }}
                 {{ post.author.last_name }}<a/> -
                 {{ post.post_date }}
+
+        {% else %}
+            {{ post.author.first_name }}
+            {{ post.author.last_name }}
+
+        {% endif %}
 
             {% if user.is_authenticated %}
                 {% if user.id == post.author.id %}

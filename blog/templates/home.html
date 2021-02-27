@@ -1,14 +1,19 @@
 {% extends 'base.html' %}
-{% load static %}
 {% block content %}
 <h1>Post</h1>
 
 <ul>
 {% for post in object_list %}
 
+    {% if post.author.profile %}
         By: <a href="{% url 'show_profile_page' post.author.profile.id %}">
                 {{ post.author.first_name }}
                 {{ post.author.last_name }}<a/>
+    {% else %}
+        {{ post.author.first_name }}
+        {{ post.author.last_name }}
+
+    {% endif %}
     {% if user.is_authenticated %}
 
         {% if user.id == post.author.id %}
